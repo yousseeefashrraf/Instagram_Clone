@@ -8,15 +8,37 @@
 import SwiftUI
 
 struct UserProfileView: View {
-    @ObservedObject private var user = UserViewModel()
+    @ObservedObject private var userViewModel = UserViewModel()
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ZStack{
+            Color("BlackShade")
+                .ignoresSafeArea()
+            VStack{
+                VStack(alignment: .leading){
+                    HStack{
+                        Text(userViewModel.user.username)
+                            .font(.system(size: 24, weight: .bold))
+                        
+                        Image(systemName: "chevron.down")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 12, height: 12)
+                            .bold()
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    HeaderView(userViewModel: userViewModel)
+                        .padding(.top, 25)
+                }
+                .padding(10)
+                HighlightView(userViewModel: UserViewModel())
+                PostAndNavigationView()
+                    .padding(.top, 20)
+                Spacer()
+                
+            }
         }
-        .padding()
+        
     }
 }
 

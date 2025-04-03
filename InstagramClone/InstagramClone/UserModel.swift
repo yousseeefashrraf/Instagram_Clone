@@ -24,7 +24,8 @@ class Post: Identifiable, ObservableObject{
         self.isLiked = isLiked
     }
 }
-struct Highlight: Hashable{
+struct Highlight: Hashable, Identifiable{
+    var id = UUID()
     var caption: String
     var coverPhoto: String
 }
@@ -63,7 +64,7 @@ class UserViewModel: ObservableObject{
     @Published var user: User
     
     init(){
-        var song: Song = Song(name: "BA2EENA GHORAB", artist: "TUL9TE")
+        var song: Song = Song(name: "BA2EENA GHORAB", artist: "TUL8TE")
         var highlights: [Highlight] = [Highlight(caption: "France 🇫🇷", coverPhoto: "h1"),
                                        Highlight(caption: "Austria 🇦🇹", coverPhoto: "h2"),
                                        Highlight(caption: "Random", coverPhoto: "h3"),
