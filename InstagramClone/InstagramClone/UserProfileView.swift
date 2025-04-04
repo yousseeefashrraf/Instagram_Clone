@@ -9,35 +9,57 @@ import SwiftUI
 
 struct UserProfileView: View {
     @ObservedObject private var userViewModel = UserViewModel()
+    @StateObject var navigationViewModel = NavigationViewModel()
     var body: some View {
-        ZStack{
-            Color("BlackShade")
-                .ignoresSafeArea()
-            VStack{
-                VStack(alignment: .leading){
-                    HStack{
-                        Text(userViewModel.user.username)
-                            .font(.system(size: 24, weight: .bold))
+        
+        NavigationStack{
+            ZStack{
+                
+                Color("BlackShade")
+                    .ignoresSafeArea()
+                
+                ScrollView{
+                    VStack{
                         
-                        Image(systemName: "chevron.down")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 12, height: 12)
-                            .bold()
+                        VStack(alignment: .leading){
+                            HStack{
+                                Text(userViewModel.user.username)
+                                    .font(.system(size: 24, weight: .bold))
+                                
+                                Image(systemName: "chevron.down")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 12, height: 12)
+                                    .bold()
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            HeaderView(userViewModel: userViewModel)
+                                .padding(.top, 25)
+                        }
+                        .padding(10)
+                        HighlightView(userViewModel: UserViewModel())
+                        PostAndNavigationView(navigationViewModel: navigationViewModel)
+                            .padding(.top, 20)
+                            .padding(.bottom, 10)
+                        if navigationViewModel.selectd == 0{
+                            PostsView(userViewModel: userViewModel)
+                        }
+                        
+                        Spacer()
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    HeaderView(userViewModel: userViewModel)
-                        .padding(.top, 25)
                 }
-                .padding(10)
-                HighlightView(userViewModel: UserViewModel())
-                PostAndNavigationView()
-                    .padding(.top, 20)
-                Spacer()
+                .scrollIndicators(.hidden)
+                .clipped()
+            }
+            .navigationDestination(for: Int.self) { index in
+                if let posts = userViewModel.user.posts {
+                    PostView(user: userViewModel.user, post: posts[index])
+                }
                 
             }
         }
+        .tint(.white)
         
     }
 }

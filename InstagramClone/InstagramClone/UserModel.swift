@@ -7,6 +7,7 @@ struct Song: Hashable{
 }
 
 class Post: Identifiable, ObservableObject{
+    
     var id = UUID()
     var pictures: [String]
     var catption: String
@@ -22,6 +23,7 @@ class Post: Identifiable, ObservableObject{
         self.comments = comments
         self.shares = shares
         self.isLiked = isLiked
+        print(isLiked)
     }
 }
 struct Highlight: Hashable, Identifiable{
@@ -74,7 +76,7 @@ class UserViewModel: ObservableObject{
         ]
         var numberOfPicturesInEachCountry = ["france": 11,
                                              "hungary": 7,
-                                             "latvia": 4]
+                                             "lativa": 4]
         
         var captionOfPicturesInEachCountry = ["france": "France pt. 1 🇫🇷!",
                                               "france2":"France pt. 2 🇫🇷!",
@@ -90,7 +92,7 @@ class UserViewModel: ObservableObject{
                                               "france2":6,
                                              "hungary": 3,
                                              "latvia": 11]
-        var sharesOfPicturesInEachCountry = ["france1": 3,
+        var sharesOfPicturesInEachCountry = ["france": 3,
                                               "france2":5,
                                              "hungary": 1,
                                              "latvia": 0]
@@ -104,18 +106,18 @@ class UserViewModel: ObservableObject{
                 if country == "france" && numberOfPics > 6{
                     break
                 }
-                postPics.append(country + "\(number)")
+                postPics.append(country + "\(numberOfPics)")
             }
         
-            posts.append(Post(pictures: postPics, catption: captionOfPicturesInEachCountry[country] ?? "", likes: likesOfPicturesInEachCountry[country] ?? 0, comments: commentsOfPicturesInEachCountry[country] ?? 0, shares: sharesOfPicturesInEachCountry[country] ?? 0))
+            posts.append(Post(pictures: postPics, catption: captionOfPicturesInEachCountry[country] ?? "", likes: likesOfPicturesInEachCountry[country] ?? 0, comments: commentsOfPicturesInEachCountry[country] ?? 15, shares: sharesOfPicturesInEachCountry[country] ?? 0, isLiked: false))
                          
                 if country == "france" {
                     postPics = []
                 for numberOfPics in 7...number{
-                    postPics.append(country + "\(number)")
+                    postPics.append(country + "\(numberOfPics)")
                 }
                     
-                    posts.append(Post(pictures: postPics, catption: captionOfPicturesInEachCountry[country+"2"] ?? "", likes: likesOfPicturesInEachCountry[country+"2"] ?? 0, comments: commentsOfPicturesInEachCountry[country+"2"] ?? 0, shares: sharesOfPicturesInEachCountry[country+"2"] ?? 0))
+                    posts.append(Post(pictures: postPics, catption: captionOfPicturesInEachCountry[country+"2"] ?? "", likes: likesOfPicturesInEachCountry[country+"2"] ?? 0, comments: commentsOfPicturesInEachCountry[country+"2"] ?? 0, shares: sharesOfPicturesInEachCountry[country+"2"] ?? 0, isLiked: false))
                 
             }
                          
@@ -123,6 +125,9 @@ class UserViewModel: ObservableObject{
             
         }
         
+        posts = posts.sorted{
+            return $0.comments < $1.comments
+        }
         user = User(name: "Youssef Ashraf", username: "yousseefashrraf", pronouns: "he/him", numberOfPosts: 4, followers: 334, following: 431, caption: "وَلَا يَظْلِمُ رَبُّكَ أَحَدًا ❤️", pinedSong: song,profilePicture: "me", posts: posts,highlights: highlights)
     }
     

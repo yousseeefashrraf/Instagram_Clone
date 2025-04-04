@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NavigationView: View{
-    @StateObject var navigationViewModel = NavigationViewModel()
+    @StateObject var navigationViewModel: NavigationViewModel
     @Environment(\.colorScheme) var colorScheme
     let imageSize: CGFloat = 30
     var body: some View{
@@ -88,13 +88,14 @@ struct NavigationView: View{
         }
     }
     struct PostAndNavigationView: View {
+        @StateObject var navigationViewModel: NavigationViewModel
         var body: some View {
             VStack{
-                NavigationView()
+                NavigationView(navigationViewModel: navigationViewModel)
             }
         }
     }
     
     #Preview {
-        PostAndNavigationView()
+        PostAndNavigationView(navigationViewModel: NavigationViewModel())
     }

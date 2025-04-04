@@ -107,6 +107,7 @@ struct BioAndActionView: View{
                             Circle()
                                 .stroke(.white, lineWidth: 2)
                         }
+                        .padding(.trailing, 5)
                     Text(song.name)
                         .bold()
                     Text(".")
@@ -200,6 +201,21 @@ struct HighlightView: View{
                             Text(highlight.caption)
                         }
                     }
+                    VStack(alignment: .center){
+                        Image(systemName:"plus")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 20, height: 20)
+                            .clipShape(.circle)
+                            .frame(width: 70, height: 70)
+                            .overlay {
+                                Circle()
+                                    .stroke(lineWidth: 4)
+                                    .foregroundStyle(.grayShade)
+                            }
+                        Text("New")
+                    }
+                    .padding(.top,10)
                 }
                 .frame(maxWidth: .infinity,alignment: .leading)
 
